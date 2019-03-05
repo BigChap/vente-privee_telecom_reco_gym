@@ -7,5 +7,5 @@ def test_random_action():
     env.reset()
     action = env.action_space.sample()
     state, reward, done, info = env.step(action)
-    assert state is None
+    assert state == 0
     assert done is False
