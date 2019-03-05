@@ -12,3 +12,8 @@ pip install -e .
 
 python examples/run.py
 
+To test that everythiong works
+
+````bash
+pytest
+```
