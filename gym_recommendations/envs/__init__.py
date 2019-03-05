@@ -1,0 +1,2 @@
+from gym_recommendations.envs.multi_armed_bandit import MultiArmedBandit
+
