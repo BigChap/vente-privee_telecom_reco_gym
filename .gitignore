@@ -1,0 +1,13 @@
+.DS_Store
+.idea/
+.ipynb_checkpoints/
+.pytest_cache
+.python-version
+.tox
+pages/coverage
+pages/docs
+*.pyc
+*.egg-info
+/conf.env
+/logging.yml
+
