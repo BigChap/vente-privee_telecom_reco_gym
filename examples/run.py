@@ -4,6 +4,7 @@ import gym_recommendations
 import gym
 from gym import wrappers, logger
 from agents.random_agent import RandomAgent
+from agents.epsilon_greedy_agent import EpsilonGreedy
 #from gym_recommendations.wrapper import DynamicMonitor
 
 
@@ -32,7 +33,11 @@ def run(env_name, agent_name, nb_episodes, render_freq, render_mode):
 
     env.render(mode=render_mode)
     env.seed(0)
-    #agent = RandomAgent(env.env.action_space)
+    
+    if agent_name == 'RandomAgent' :
+        agent = RandomAgent(env.env.action_space)
+    elif agent_name == 'EpsilonGreedyAgent' :
+        agent = EpsilonGreedy(env.env.action_space)
 
     step = 0
     reward = 0
@@ -44,7 +49,7 @@ def run(env_name, agent_name, nb_episodes, render_freq, render_mode):
         while True:
             step += 1
             # action space may have change
-            agent = RandomAgent(env.env.action_space)
+            # agent = EpsilonGreedy(env.env.action_space)
             action = agent.act(ob, reward, done)
             ob, reward, done, _ = env.step(action)
             if done:
