@@ -4,21 +4,23 @@ class GradientBandit:
     
     def __init__(self, action_space, alpha=0.1):
         # Number of arms
-        self.k = len(action_space)
-        self.actions = action_space
-        # Number of iterations
-        self.iters = iters
+
+        self.k = action_space.n
+        self.actions =np.array(range( action_space.n))
         # Step count
         self.n = 1
         # Step count for each arm
-        self.k_n = np.ones(len(action_space))
+        self.k_n = np.ones(action_space.n)
+        
         # Total mean reward
         self.mean_reward = 0
 
         # Mean reward for each arm
-        self.k_reward = np.zeros(len(action_space))
+
+        self.k_reward = np.zeros(action_space.n)
         # Initialize preferences
-        self.H = np.zeros(len(action_space))
+        self.H = np.zeros(action_space.n)
+
         # Learning rate
         self.alpha = alpha
         
@@ -32,8 +34,8 @@ class GradientBandit:
         self.prob_action = np.exp(self.H - np.max(self.H)) \
             / np.sum(np.exp(self.H - np.max(self.H)), axis=0)
         
-    def act(self,observaton,reward,done):
 
+    def act(self,observation,reward,done):
 
         # Update probabilities
         a=self.last_action
@@ -56,7 +58,6 @@ class GradientBandit:
         self.H[a] = self.H[a] + \
                 self.alpha * (reward - self.mean_reward) * (1 - self.prob_action[a])
         
-  
         actions_not_taken = self.actions!=a
         self.H[actions_not_taken] = self.H[actions_not_taken] - \
             self.alpha * (reward - self.mean_reward) * self.prob_action[actions_not_taken]
