@@ -6,6 +6,7 @@ from gym import wrappers, logger
 from agents.random_agent import RandomAgent
 from agents.epsilon_greedy_agent import EpsilonGreedy
 from agents.gradient_bandit_agent import GradientBandit
+from agents.ucb_agent import ucb
 #from gym_recommendations.wrapper import DynamicMonitor
 
 
@@ -13,7 +14,7 @@ import click
 
 @click.command()
 @click.option('--env_name', default='Multi-Armed-Bandits-v0', help='Select the environment to run.')
-@click.option('--agent_name', default='EpsilonGreedyAgent', help='Select the agent to run.')
+@click.option('--agent_name', default='ucb', help='Select the agent to run.')
 @click.option('--nb_episodes', default=3, help='Number of episodes to run.')
 @click.option('--render_freq', default=1, help='Rendering frequency.')
 @click.option('--render_mode', default='human', help='Randering mode.')
@@ -41,6 +42,8 @@ def run(env_name, agent_name, nb_episodes, render_freq, render_mode):
         agent = EpsilonGreedy(env.env.action_space)
     elif agent_name == 'GradientBanditAgent' :
         agent = GradientBandit(env.env.action_space)
+    elif agent_name == 'ucb' :
+        agent = ucb(env.env.action_space)
 
     step = 0
     reward = 0
