@@ -18,7 +18,7 @@ class EpsilonGreedy:
             self.q_table[self.last_action]=(self.q_table[self.last_action]*self.action_count[self.last_action]+reward)/(self.action_count[self.last_action]+1)
             self.action_count[self.last_action]+=1
 
-        if np.random.random() < self.epsilon:
+        if (np.random.random() < self.epsilon or sum(list(self.action_count.values()))<self.exploration_step):
             action = np.random.randint(self.action_space.n) 
         else:
             action = list(self.q_table.keys())[list(self.q_table.values()).index(max(self.q_table.values()))] 
