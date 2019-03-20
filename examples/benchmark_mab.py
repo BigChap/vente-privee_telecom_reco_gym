@@ -10,9 +10,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-nb_exp = int(sys.argv[1])
-nb_episodes = int(sys.argv[2])
+
+nb_exp=10
+nb_episodes=10
 env_name = 'Multi-Armed-Bandits-v0'
+
+if len(sys.argv)>1:
+    nb_exp = int(sys.argv[1])
+if len(sys.argv)>2:
+    nb_episodes = int(sys.argv[2])
+if len(sys.argv)>3:
+    env_name = 'Multi-Armed-Bandits-v0'
+
 env = gym.make(env_name)
 agents_list={'Random Agent':RandomAgent(env.env.action_space),'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),'Gradient Bandit Agent':GradientBandit(env.env.action_space),'UCB Agent':ucb(env.env.action_space)}
 
