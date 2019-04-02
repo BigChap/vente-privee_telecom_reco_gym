@@ -6,6 +6,7 @@ from agents.random_agent import RandomAgent
 from agents.epsilon_greedy_agent import EpsilonGreedy
 from agents.gradient_bandit_agent import GradientBandit
 from agents.ucb_agent import ucb
+from agents.thompson_sampling import ThompsonSampling
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -23,7 +24,11 @@ if len(sys.argv)>3:
     env_name = 'Multi-Armed-Bandits-v0'
 
 env = gym.make(env_name)
-agents_list={'Random Agent':RandomAgent(env.env.action_space),'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),'Gradient Bandit Agent':GradientBandit(env.env.action_space),'UCB Agent':ucb(env.env.action_space)}
+agents_list={'Random Agent':RandomAgent(env.env.action_space),\
+    'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),\
+        'Gradient Bandit Agent':GradientBandit(env.env.action_space),\
+            'UCB Agent':ucb(env.env.action_space),\
+                'Thompson Sampling Agent':ThompsonSampling(env.env.action_space, param=None)}
 
 def run_bench():
     logger.set_level(logger.INFO)
@@ -35,7 +40,7 @@ def run_bench():
         env = gym.make(env_name)
         for agent_name in list(agents_list.keys()):
             agent = agents_list[agent_name]
-            for episode in range(nb_episodes):
+            for _ in range(nb_episodes):
                 step=0
                 ob = env.reset()
                 reward=0
@@ -52,7 +57,7 @@ def run_bench():
 
     env.env.close()
 
-    fig = plt.figure()
+    plt.figure()
     for agent_name in rewards:
         x = np.mean(rewards[agent_name],axis=0)
         plt.plot(x,label=f'{agent_name}')
