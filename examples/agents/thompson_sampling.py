@@ -2,7 +2,7 @@ import numpy as np
 
 class ThompsonSampling:
     
-    def __init__(self, action_space, param="beta"):
+    def __init__(self, action_space, param=None):
         self.action_space = action_space
         self.cum_rewards = np.zeros(action_space.n,float) 
         self.nb_tries = np.zeros(action_space.n,int)
@@ -17,7 +17,7 @@ class ThompsonSampling:
                 samples = np.random.beta(self.cum_rewards + 1, self.nb_tries - self.cum_rewards + 1)
             except:
                 samples = np.random.random(k)
-        elif self.param == "normal":
+        else:
             # Normal prior
             samples = np.random.normal(self.cum_rewards / (self.nb_tries + 1), 1. / (self.nb_tries + 1))
 
@@ -25,7 +25,5 @@ class ThompsonSampling:
         r = reward
         self.nb_tries[a] += 1
         self.cum_rewards[a] += r
-        # index = np.where(self.nb_tries > 0)[0]
-        # best_action = index[np.argmax(self.cum_rewards[index] / self.nb_tries[index])]
 
         return a

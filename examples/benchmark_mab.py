@@ -28,7 +28,7 @@ agents_list={'Random Agent':RandomAgent(env.env.action_space),\
     'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),\
         'Gradient Bandit Agent':GradientBandit(env.env.action_space),\
             'UCB Agent':ucb(env.env.action_space),\
-                'Thompson Sampling Agent':ThompsonSampling(env.env.action_space, param="normal")}
+                'Thompson Sampling Agent':ThompsonSampling(env.env.action_space)}
 
 def run_bench():
     logger.set_level(logger.INFO)
