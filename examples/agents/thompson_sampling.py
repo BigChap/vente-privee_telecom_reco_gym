@@ -11,20 +11,26 @@ class ThompsonSampling:
         
 
     def act(self,observation,reward,done):
+            # self.cum_rewards = np.zeros(action_space.n,float) 
+            # self.nb_tries = np.zeros(action_space.n,int)
+            # self.last_action = 0
+
         k = np.shape(self.nb_tries)[0]
         self.nb_tries[self.last_action] += 1
         self.cum_rewards[self.last_action] += reward
         if self.param == "beta":
             # Beta prior
             try:
-                samples = np.random.beta(self.cum_rewards, self.nb_tries - self.cum_rewards)
+                samples = np.random.beta(self.cum_rewards, self.nb_tries +1 - self.cum_rewards)
             except:
                 samples = np.random.random(k)
         else:
             # Normal prior
-            samples = np.random.normal(self.cum_rewards / (self.nb_tries), 1. / (self.nb_tries))
+            samples = np.random.normal(self.cum_rewards / (self.nb_tries+1), 1. / (self.nb_tries+1))
 
-        a = np.argmax(samples)
-        self.last_action = a
+        self.last_action = np.argmax(samples)
+        if done:
+            self.__init__(action_space=self.action_space, param=self.param)
+            return
 
-        return a
+        return self.last_action
