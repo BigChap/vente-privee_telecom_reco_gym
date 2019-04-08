@@ -50,6 +50,7 @@ def run_bench():
                     action = agent.act(ob,reward,done)
                     ob, reward, done, _ = env.step(action)
                     if done:
+                        agent.reset()
                         break
                     reward_record.append(reward_record[step-1]+reward)
                 rewards[agent_name].append(reward_record)
