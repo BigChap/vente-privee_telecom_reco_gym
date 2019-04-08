@@ -15,12 +15,13 @@ import sys
 nb_exp=10
 nb_episodes=10
 env_name = 'Multi-Armed-Bandits-v0'
-# if len(sys.argv)>1:
-#     nb_exp = int(sys.argv[1])
-# if len(sys.argv)>2:
-#     nb_episodes = int(sys.argv[2])
-# if len(sys.argv)>3:
-#     env_name = sys.argv[0] 
+
+if len(sys.argv)>1:
+    nb_exp = int(sys.argv[1])
+if len(sys.argv)>2:
+    nb_episodes = int(sys.argv[2])
+if len(sys.argv)>3:
+    env_name = sys.argv[3] 
 
 env = gym.make(env_name)
 agents_list={'Random Agent':RandomAgent(env.env.action_space),\

@@ -14,7 +14,7 @@ class ucb:
         # Total mean reward
         self.mean_reward = 0
         # Mean reward for each arm
-        self.k_reward = np.zeros(action_space.n)
+        self.k_reward = np.ones(action_space.n)*100
 
 
     def act(self, observation, reward, done):
