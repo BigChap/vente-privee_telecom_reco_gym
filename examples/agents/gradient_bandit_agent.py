@@ -74,7 +74,7 @@ class GradientBandit:
             action = np.random.choice(self.actions, p=self.prob_action)
         
         self.last_action=action
-        
+        self.n += 1         
         if done: 
             
             # initialize
