@@ -7,4 +7,6 @@ class RandomAgent(object):
 
     def act(self, observation, reward, done):
         return self.action_space.sample()
-
+    
+    def reset(self):
+        self.__init__(self.action_space)

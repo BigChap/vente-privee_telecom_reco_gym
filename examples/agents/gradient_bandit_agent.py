@@ -4,9 +4,9 @@ class GradientBandit:
     
     def __init__(self, action_space, alpha=0.1):
         # Number of arms
-
         self.k = action_space.n
         self.actions =np.array(range( action_space.n))
+        self.action_space = action_space
         # Step count
         self.n = 1
         # Step count for each arm
@@ -79,3 +79,6 @@ class GradientBandit:
             / np.sum(np.exp(self.H - np.max(self.H)), axis=0)
  
         return action
+
+    def reset(self):
+        self.__init__(self.action_space,self.alpha)

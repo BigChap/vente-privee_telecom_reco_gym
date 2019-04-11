@@ -34,6 +34,7 @@ class ucb:
 
         return action
 
-
+    def reset(self):
+        self.__init__(self.action_space,self.c)
 
 
