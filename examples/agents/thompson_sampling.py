@@ -27,4 +27,4 @@ class ThompsonSampling:
 
     def reset(self):
         self.__init__(action_space=self.action_space, param=self.param)
-        return
+        return self
