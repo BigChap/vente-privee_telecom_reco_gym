@@ -2,27 +2,14 @@ import gym
 import numpy as np
 import sys
 from gym.utils import seeding
-
-
-
-##### function to generate the matrix context ( n arms * n features ) ####################"
-def random_points_l2_ball(n, dim):
-    """
-    Args:
-        dim: number of dimensions
-        n: number of points
-    Returns:
-        Points uniformly distributed inside a L2 ball.
-    """
-    x = np.random.normal(size=(dim, n))
-    return np.random.uniform(size=n) ** (1 / dim) * x / np.sqrt(np.sum(x**2, axis=0))
+from tools import *
 
 
 
 ##########################  contextual bandit environement ###############################
 
 
-class ContextualBandit(gym.Env):
+class ContextualBandit():
     # Contextual MAB
     
     """
@@ -58,14 +45,12 @@ class ContextualBandit(gym.Env):
          return np.random.choice(self.nb_arm,  self.k, replace=False)  ### generate new action space randomly
     
     def step(self, action):
-
         assert action in self.action_space
         self.action = action
         self.reward = self.compute_reward()
         self.done= False
         self.action_space = self.compute_action_space()
-
-        return self.state, self.action_space, self.reward, self.done,self.x
+        return self.state, self.action_space, self.reward, self.done,self.x[self.action_space]
     
 
     def seed(self, seed=None):
