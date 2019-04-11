@@ -23,7 +23,7 @@ if len(sys.argv)>2:
 if len(sys.argv)>3:
     env_name = sys.argv[3] 
 
-env = gym.make(env_name)
+env = gym.make(env_name,nb_arm=1000)
 agents_list={'Random Agent':RandomAgent(env.env.action_space),\
     'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),\
         'Gradient Bandit Agent':GradientBandit(env.env.action_space),\
@@ -37,20 +37,23 @@ def run_bench():
 
     for i in range(nb_exp):
         print(f'exp {i}')
-        for agent_name in list(agents_list.keys()):
-            agent = agents_list[agent_name]
-            for _ in range(nb_episodes):
-                step=0
+        for _ in range(nb_episodes):
+            env=gym.make(env_name,nb_arm=1000)
+            ob=env.reset()
+            for agent_name in list(agents_list.keys()):
+                agent = agents_list[agent_name]
+                agent.reset()
                 ob = env.reset()
+                step = 0
                 reward=0
-                done=False
                 reward_record = [0]
+                done = False
                 while True:
                     step += 1
                     action = agent.act(ob,reward,done)
                     ob, reward, done, _ = env.step(action)
+                   # print(f'{agent_name} - action:{action} - reward:{reward}')
                     if done:
-                        agent.reset()
                         break
                     reward_record.append(reward_record[step-1]+reward)
                 rewards[agent_name].append(reward_record)
