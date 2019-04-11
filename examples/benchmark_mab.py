@@ -26,9 +26,9 @@ if len(sys.argv)>3:
 env = gym.make(env_name,nb_arm=1000)
 agents_list={'Random Agent':RandomAgent(env.env.action_space),\
     'Epsilon Greedy Agent':EpsilonGreedy(env.env.action_space),\
-        'Gradient Bandit Agent':GradientBandit(env.env.action_space),\
-            'UCB Agent':ucb(env.env.action_space),\
-                'Thompson Sampling Agent':ThompsonSampling(env.env.action_space)}
+    'Gradient Bandit Agent':GradientBandit(env.env.action_space),\
+    'UCB Agent':ucb(env.env.action_space),\
+    'Thompson Sampling Agent':ThompsonSampling(env.env.action_space)}
 
 def run_bench():
     logger.set_level(logger.INFO)
@@ -42,7 +42,8 @@ def run_bench():
             ob=env.reset()
             for agent_name in list(agents_list.keys()):
                 agent = agents_list[agent_name]
-                agent.reset()
+                print(agent.reset())
+                agent = agent.reset()
                 ob = env.reset()
                 step = 0
                 reward=0
@@ -52,7 +53,7 @@ def run_bench():
                     step += 1
                     action = agent.act(ob,reward,done)
                     ob, reward, done, _ = env.step(action)
-                   # print(f'{agent_name} - action:{action} - reward:{reward}')
+                    print(f'{agent_name} - action:{action} - reward:{reward}')
                     if done:
                         break
                     reward_record.append(reward_record[step-1]+reward)

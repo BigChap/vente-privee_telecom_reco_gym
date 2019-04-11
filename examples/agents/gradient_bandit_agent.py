@@ -82,3 +82,4 @@ class GradientBandit:
 
     def reset(self):
         self.__init__(self.action_space,self.alpha)
+        return self

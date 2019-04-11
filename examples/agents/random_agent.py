@@ -10,3 +10,4 @@ class RandomAgent(object):
     
     def reset(self):
         self.__init__(self.action_space)
+        return self

@@ -55,6 +55,7 @@ def run(env_name, agent_name, nb_episodes, render_freq, render_mode):
     for episode in range(nb_episodes):
         print(f'--------- Episode {episode} ---------')
         ob = env.reset()
+        agent = agent.reset()
         while True:
             step += 1
             # action space may have change
