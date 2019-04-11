@@ -40,29 +40,19 @@ class GradientBandit:
         
 
     def act(self,observation,reward,done):
-
-	########## explore all arms ##########
-	if self.n < self.steps_explore :
- 		a=self.actions[self.n]
-		self.n+=1
-		
-   	else  :
-		 a=self.last_action
+        a=self.last_action
 
 	########## exploit ##################
-        
         # Update counts
         self.k_n[a] += 1
         
-        
         # Update results for a_k
-        self.k_reward[a] = self.k_reward[a] + (
+        self.k_reward[a] = self.k_reward[a] + ( \
                 reward - self.k_reward[a]) / self.k_n[a]
-        
+
         # Update total
-        self.mean_reward = self.mean_reward + (
+        self.mean_reward = self.mean_reward + ( \
                 reward - self.mean_reward) / self.n
-        
         
         # Update preferences
         self.H[a] = self.H[a] + \
@@ -77,15 +67,20 @@ class GradientBandit:
         self.softmax()
         
         # Select highest preference action
-        action = np.random.choice(self.actions, p=self.prob_action)
+        ########## explore all arms ##########
+        if self.n < self.steps_explore:
+            action = self.actions[self.n]
+        else:
+            action = np.random.choice(self.actions, p=self.prob_action)
+        
         self.last_action=action
         
-        if done : 
+        if done: 
             
             # initialize
             self.k_reward = np.zeros(self.k)
             self.mean_reward = 0     
- 	    self.H = np.zeros(self.k)       
+            self.H = np.zeros(self.k)       
             self.prob_action = np.exp(self.H - np.max(self.H)) \
             / np.sum(np.exp(self.H - np.max(self.H)), axis=0)
            
