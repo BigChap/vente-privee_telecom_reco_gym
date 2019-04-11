@@ -8,13 +8,17 @@ class GradientBandit:
         self.actions =np.array(range( action_space.n))
         self.action_space = action_space
         # Step count
+
         self.n = 1
         # Step count for each arm
         self.k_n = np.ones(action_space.n)
         
+        # step exploration 
+        self.steps_explore=1*action_space.n  ## we test each arm only once
+        self.stop_explore= False
         # Total mean reward
         self.mean_reward = 0
-
+            
         # Mean reward for each arm
 
         self.k_reward = np.zeros(action_space.n)
@@ -37,11 +41,17 @@ class GradientBandit:
 
     def act(self,observation,reward,done):
 
-        # Update probabilities
-        a=self.last_action
+	########## explore all arms ##########
+	if self.n < self.steps_explore :
+ 		a=self.actions[self.n]
+		self.n+=1
+		
+   	else  :
+		 a=self.last_action
+
+	########## exploit ##################
         
         # Update counts
-        self.n += 1
         self.k_n[a] += 1
         
         
@@ -74,10 +84,11 @@ class GradientBandit:
             
             # initialize
             self.k_reward = np.zeros(self.k)
-            self.mean_reward = 0            
+            self.mean_reward = 0     
+ 	    self.H = np.zeros(self.k)       
             self.prob_action = np.exp(self.H - np.max(self.H)) \
             / np.sum(np.exp(self.H - np.max(self.H)), axis=0)
- 
+           
         return action
 
     def reset(self):
