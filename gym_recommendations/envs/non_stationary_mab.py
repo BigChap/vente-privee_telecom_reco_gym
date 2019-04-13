@@ -26,6 +26,7 @@ class NonStationaryMAB(gym.Env):
         self.time_grid = time_grid
         self.reward_function = reward_function
         self.mean_reward_functions = mean_reward_functions
+        self.best_reward = 0
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -35,6 +36,7 @@ class NonStationaryMAB(gym.Env):
         assert self.action_space.contains(action)
         self.action = action
         self.reward = self.reward_function(self.mean_reward_functions[action](self.time_grid[self.t]))
+        self.best_reward = max(list(map(lambda x : x(self.time_grid[self.t]),self.mean_reward_functions)))
         self.t += 1
         return self.state, self.reward, False, dict()  # state, reward, done, info
 
@@ -48,6 +50,8 @@ class NonStationaryMAB(gym.Env):
         outfile.write(inp)
         return outfile
 
+    def get_best_reward(self):
+        return self.best_reward
 
 class NormalNonStationaryMAB(NonStationaryMAB):
     def __init__(self, time_grid, functions):

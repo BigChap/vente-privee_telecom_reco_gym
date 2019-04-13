@@ -18,6 +18,7 @@ class MultiArmedBandit(gym.Env):
         self.state = 0 # stable baseline require some state
         self.reward = None
         self.observation_space = spaces.Discrete(1)
+        self.best_reward = max(self.arms_mean)
 
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
@@ -32,7 +33,10 @@ class MultiArmedBandit(gym.Env):
     def reset(self):
         self.arms_mean = np.random.normal(0, 1, self.nb_arm)
         return self.state
-
+    
+    def get_best_reward(self):
+        return self.best_reward
+    
     def render(self, mode='ansi', close=False):
         outfile = sys.stdout
         inp = "State {}, action {}, reward {}\n".format(self.state, self.action, self.reward)
