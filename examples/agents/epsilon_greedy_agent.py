@@ -10,7 +10,7 @@ class EpsilonGreedy:
         self.epsilon = epsilon
 
     def act(self, observation, reward, done):
-        self.q_table[self.last_action]=(self.q_table[self.last_action]*self.action_count[self.last_action]+reward)/(self.action_count[self.last_action]+1)
+        self.q_table[self.last_action]=float((self.q_table[self.last_action]*self.action_count[self.last_action]+reward)/(self.action_count[self.last_action]+1))
         self.action_count[self.last_action]+=1
 
         if np.random.random() < self.epsilon: 
