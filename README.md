@@ -17,4 +17,3 @@ To test that everythiong works
 ````bash
 pytest
 ```
-J'ai plein de choses à dire...
